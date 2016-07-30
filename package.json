@@ -1,0 +1,20 @@
+{
+  "name": "gpx.walker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "create": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^1.21.0",
+    "geolib": "^2.0.21",
+    "js2xmlparser": "^1.0.0",
+    "moment": "^2.14.1",
+    "request": "^2.74.0",
+    "underscore": "^1.8.3"
+  }
+}
