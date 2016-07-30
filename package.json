@@ -7,7 +7,7 @@
     "create": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Grant Fong <grantchiu011101@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "config": "^1.21.0",
