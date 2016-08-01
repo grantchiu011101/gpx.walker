@@ -14,10 +14,14 @@ console.log ( "%s %s", moment().format(), url) ;
 
 
 request.get({url: url, json: true}, function(e, r, data) {
-	
-	var location = _.first(data.results).geometry.location ;
+	console.log ( data) ;
+	var location = (_.isUndefined(data))?{lat: 22.2799907,lng: 114.1587983}:_.first(data.results).geometry.location ;
 	var initial = {lat:location.lat, lon: location.lng} ;
-	console.log ( "%s %s", moment().format(), _.first(data.results).formatted_address ) ;
+
+	if ( !_.isUndefined(data)) {
+		console.log ( "%s %s", moment().format(), _.first(data.results).formatted_address ) ;		
+	}
+	
 	
 
 	_.each ( _.range(2), function(value) {
@@ -26,17 +30,16 @@ request.get({url: url, json: true}, function(e, r, data) {
 		var step = 300 ;
 		var wpt = _.chain(_.range(step)).map(function(val) {
 			
-			var dist = 150 ;
+			var dist = _.random(10, 500) ;
 			var angle = _.chain(_.range(12)).map(function(val){ return val * 30}).value() ;
 			
 
-			// console.log ( (val % angle.length)) ;
-			var bearing = (this.stop)?angle[(val % angle.length)]:_.sample(angle) ;
+			var bearing = (this.stop)?angle[(val % angle.length)]:_.random(0, 360) ;
 			// console.log ( bearing) ;
 			
 
 			var result = geolib.computeDestinationPoint(this.initial, dist, bearing);
-			this.initial = result ;
+			// this.initial = result ;
 			return {
 				"@": {
 					lat: result.latitude ,
