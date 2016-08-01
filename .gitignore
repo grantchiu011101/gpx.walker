@@ -1,2 +1,4 @@
 node_modules
-GPXWalker.gpx
+gpx.stop.gpx
+gpx.walker.gpx
+npm-debug.log
