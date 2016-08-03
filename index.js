@@ -44,12 +44,14 @@ request.get({url: url, json: true}, function(e, r, data) {
 			var maxDist = geolib.convertUnit('km', maxDist, 2) ;
 			// console.log ( maxDist) ;
 			// var dist = _.random(10, maxDist) ;
-			var dist = _.random(10, 500) ;
+			var dist = (this.stop)?_.random(0, 50):_.random(10, 500) ;
 
 			var angle = _.chain(_.range(12)).map(function(val){ return val * 30}).value() ;
 			
 
 			var bearing = (this.stop)?angle[(val % angle.length)]:_.random(0, 360) ;
+			var bearing = _.random(0, 360) ;
+
 			
 
 			var result = geolib.computeDestinationPoint(this.initial, dist, bearing);
