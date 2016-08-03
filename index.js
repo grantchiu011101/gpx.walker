@@ -17,6 +17,7 @@ request.get({url: url, json: true}, function(e, r, data) {
 	console.log ( data) ;
 	var location = (_.isUndefined(data))?{lat: 22.2799907,lng: 114.1587983}:_.first(data.results).geometry.location ;
 	var initial = {lat:location.lat, lon: location.lng} ;
+	var viewport = _.first(data.results).geometry.viewport ;
 
 	if ( !_.isUndefined(data)) {
 		console.log ( "%s %s", moment().format(), _.first(data.results).formatted_address ) ;		
@@ -27,15 +28,28 @@ request.get({url: url, json: true}, function(e, r, data) {
 	_.each ( _.range(2), function(value) {
 		var stop = (value === 1)  ;
 
+
 		var step = 300 ;
 		var wpt = _.chain(_.range(step)).map(function(val) {
 			
+			var center = geolib.getCenter([
+					this.viewport.northeast,
+					this.viewport.southwest
+				]) ;
+
+			var maxDist = _.max(
+				[ geolib.getDistance(this.viewport.southwest, center), 300]
+			) ;
+
+			var maxDist = geolib.convertUnit('km', maxDist, 2) ;
+			// console.log ( maxDist) ;
+			// var dist = _.random(10, maxDist) ;
 			var dist = _.random(10, 500) ;
+
 			var angle = _.chain(_.range(12)).map(function(val){ return val * 30}).value() ;
 			
 
 			var bearing = (this.stop)?angle[(val % angle.length)]:_.random(0, 360) ;
-			// console.log ( bearing) ;
 			
 
 			var result = geolib.computeDestinationPoint(this.initial, dist, bearing);
@@ -48,7 +62,7 @@ request.get({url: url, json: true}, function(e, r, data) {
 				"time":moment().add(val, 'm').format("YYYY-MM-DDTHH:mm:ss")
 			}
 
-		}, {config: config, initial: initial, stop: stop}).value() ;
+		}, {config: config, initial: initial, stop: stop, viewport: viewport}).value() ;
 
 		var data = {
 			"@": {
