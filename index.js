@@ -8,7 +8,8 @@ var fs = require('fs') ;
 
 
 var url = "https://maps.googleapis.com/maps/api/geocode/json?&address=" + encodeURIComponent(process.argv[2]) ;
-console.log ( process.argv) ;
+console.log ( process.argv[2]) ;
+var input = process.argv[2] ;
 console.log ( "%s %s", moment().format(), url) ;
 
 
@@ -75,9 +76,9 @@ request.get({url: url, json: true, proxy: 'http://proxy.tencent.com:8080'}, func
 			"wpt": wpt
 		};
 
-		var gpxFile = fs.createWriteStream(((stop)?"gpx.stop.gpx":"gpx.walker.gpx")) ;
+		var gpxFile = fs.createWriteStream(((stop)? input + ".stop.gpx": input + ".walker.gpx")) ;
 		gpxFile.write(js2xmlparser("gpx", data)) ;
-		console.log ( '%s %s' , moment().format(),((stop)?"gpx.stop.gpx":"gpx.walker.gpx")) ;
+		console.log ( '%s %s' , moment().format(),((stop)?input + ".stop.gpx":input + ".walker.gpx")) ;
 		
 	}) ;
 	console.log ( '%s Generate GPX complete %s', moment().format(), process.argv[2]) ;
