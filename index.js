@@ -13,7 +13,7 @@ console.log ( "%s %s", moment().format(), url) ;
 
 
 
-request.get({url: url, json: true}, function(e, r, data) {
+request.get({url: url, json: true, proxy: 'http://proxy.tencent.com:8080'}, function(e, r, data) {
 	console.log ( data) ;
 	var location = (_.isUndefined(data))?{lat: 22.2799907,lng: 114.1587983}:_.first(data.results).geometry.location ;
 	var initial = {lat:location.lat, lon: location.lng} ;
