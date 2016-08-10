@@ -17,7 +17,7 @@ request.get({url: url, json: true}, function(e, r, data) {
 	console.log ( data) ;
 	var location = (_.isUndefined(data))?{lat: 22.2799907,lng: 114.1587983}:_.first(data.results).geometry.location ;
 	var initial = {lat:location.lat, lon: location.lng} ;
-	var viewport = _.first(data.results).geometry.viewport ;
+	var viewport = (_.isUndefined(data))?{northeast: {lat: 22.289858,lng: 114.1942549},southwest: {lat: 22.2785533,lng: 114.1838907}}:_.first(data.results).geometry.viewport ;
 
 	if ( !_.isUndefined(data)) {
 		console.log ( "%s %s", moment().format(), _.first(data.results).formatted_address ) ;		
@@ -72,8 +72,6 @@ request.get({url: url, json: true}, function(e, r, data) {
 			},
 			"wpt": wpt
 		};
-
-		// console.log(js2xmlparser("gpx", data));
 
 		var gpxFile = fs.createWriteStream(((stop)?"gpx.stop.gpx":"gpx.walker.gpx")) ;
 		gpxFile.write(js2xmlparser("gpx", data)) ;
